@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+
+  <style>
+    .jspsych-content {
+      max-width: 800px;
+      margin: auto;
+      text-align: left;
+    }
+  </style>
+
+  <!-- jsPsych core -->
+  <script src="https://cdn.jsdelivr.net/npm/jspsych@8.0.0/dist/index.browser.min.js"></script>
+
+  <!-- plugins -->
+  <script src="https://cdn.jsdelivr.net/npm/@jspsych/plugin-html-keyboard-response@2.0.0/dist/index.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@jspsych/plugin-image-keyboard-response@2.0.0/dist/index.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@jspsych/plugin-html-button-response@2.0.0/dist/index.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@jspsych/plugin-preload@2.0.0/dist/index.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@jspsych/plugin-html-slider-response@2.0.0/dist/index.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@jspsych/plugin-survey-likert@2.0.0/dist/index.browser.min.js"></script>
+
+  <!-- css -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jspsych@8.0.0/css/jspsych.css">
+</head>
+
+<body>
+
+  <!-- modules -->
+  <script src="start_instructions.js"></script>
+  <script src="face_trials.js"></script>
+  <script src="questionnaire_mindset.js"></script>
+  <script src="end_instructions.js"></script>
+
+  <!-- main -->
+  <script src="experiment_mindset.js"></script>
+
+</body>
+</html>
