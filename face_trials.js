@@ -19,10 +19,10 @@
 
 window.face_trials = window.face_trials || [];
 
-/* ---------------- task settings (edit as needed) ---------------- */
+/* ---------------- task setting ---------------- */
 const FACE_N_TRIALS = 140;
 const FACE_TRIALS_PER_BLOCK = 20;
-const FACE_DURATION_MS = 5000;
+const FACE_DURATION_MS = 2500;
 const FEEDBACK_DURATION_MS = 1500;
 const FIXATION_MIN_S = 1;
 const FIXATION_MAX_S = 4;
