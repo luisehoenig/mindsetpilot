@@ -1,6 +1,6 @@
 /* face_trials.js
    -------------------------------------------------------------------------
-   Builds the 140-trial face perception task:
+   Builds the 100-trial face perception task:
      face image + single-choice microexpression question shown together
      (no repeats, full random order); image + question stay on screen
      until the participant responds (no fixed duration)
@@ -8,10 +8,9 @@
         conditions). On "incorrect" trials the feedback also displays a
         randomly chosen "correct answer" from the other five emotion
         options, excluding whichever one the participant actually picked.
-     -> jittered fixation (1-4s, mean ~2s)
-     -> every 20 trials: two 0-100 slider questions
+     -> every 10 trials: two 0-100 11pt questions
 
-   Feedback is NOT drawn trial-by-trial. The full 140-trial "correct"/
+   Feedback is NOT drawn trial-by-trial. The full 100-trial "correct"/
    "incorrect" sequence for the participant's assigned condition is built
    ONCE, before the task starts, out of shuffled fixed-composition blocks.
 
@@ -24,11 +23,10 @@
 window.face_trials = window.face_trials || [];
 
 /* ---------------- task setting ---------------- */
-const FACE_N_TRIALS = 140;
-const FACE_TRIALS_PER_BLOCK = 20;
+const FACE_N_TRIALS = 100;
+const FACE_TRIALS_PER_BLOCK = 10;
 const FEEDBACK_DURATION_MS = 1500;
 const FIXATION_MIN_S = 1;
-const FIXATION_MAX_S = 4;
 
 const EMOTION_OPTIONS = ["Sadness", "Happiness", "Anger", "Fear", "Surprise", "Disgust"];
 
@@ -74,24 +72,24 @@ function sampleFixationDurationMs() {
 }
 
 /* ---------------- feedback sequence construction ----------------
-   Condition 1 - Baseline:          7 blocks of 20, each 10 correct/10 incorrect
-   Condition 2 - Early streak/hot:  7 blocks of 20, each 19 correct/1 incorrect
-   Condition 3 - Late streak/hot:   3 blocks (10/10) then 4 blocks (19/1)
-   Condition 4 - Late collapse/bad: 3 blocks (10/10) then 4 blocks (1/19)
+   Condition 1 - Baseline:          10 blocks of 10, each 5 correct/5 incorrect
+   Condition 2 - Early streak/hot:  20 blocks of 5, each 4 correct/1 incorrect
+   Condition 3 - Late streak/hot:   10 blocks (5/5) then 20 blocks (4/1)
+   Condition 4 - Late collapse/bad: 10 blocks (5/5) then 20 blocks (1/4)
 ------------------------------------------------------------------- */
 function buildFeedbackSequence(condition) {
   let blocks = [];
 
   if (condition === 1) {
-    for (let b = 0; b < 7; b++) blocks.push(makeFeedbackBlock(10, 10));
+    for (let b = 0; b < 7; b++) blocks.push(makeFeedbackBlock(5, 5));
   } else if (condition === 2) {
-    for (let b = 0; b < 7; b++) blocks.push(makeFeedbackBlock(19, 1));
+    for (let b = 0; b < 7; b++) blocks.push(makeFeedbackBlock(4, 1));
   } else if (condition === 3) {
-    for (let b = 0; b < 3; b++) blocks.push(makeFeedbackBlock(10, 10));
-    for (let b = 0; b < 4; b++) blocks.push(makeFeedbackBlock(19, 1));
+    for (let b = 0; b < 3; b++) blocks.push(makeFeedbackBlock(5, 5));
+    for (let b = 0; b < 4; b++) blocks.push(makeFeedbackBlock(4, 1));
   } else if (condition === 4) {
-    for (let b = 0; b < 3; b++) blocks.push(makeFeedbackBlock(10, 10));
-    for (let b = 0; b < 4; b++) blocks.push(makeFeedbackBlock(1, 19));
+    for (let b = 0; b < 3; b++) blocks.push(makeFeedbackBlock(5, 5));
+    for (let b = 0; b < 4; b++) blocks.push(makeFeedbackBlock(1, 4));
   } else {
     throw new Error("Unknown feedback condition: " + condition);
   }
