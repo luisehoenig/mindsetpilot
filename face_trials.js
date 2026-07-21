@@ -61,16 +61,6 @@ function pickWrongEmotion(selectedEmotion) {
   return others[Math.floor(Math.random() * others.length)];
 }
 
-// Jittered fixation duration (ms): range [1,4]s, mean ~2s.
-// duration = min + (max-min) * min(U1,U2); E[min(U1,U2)] = 1/3 for
-// independent Uniform(0,1) draws, so with min=1,max=4 the exact mean is
-// 1 + 3*(1/3) = 2s, while every draw stays inside [1,4]s.
-function sampleFixationDurationMs() {
-  const r = Math.min(Math.random(), Math.random());
-  const seconds = FIXATION_MIN_S + (FIXATION_MAX_S - FIXATION_MIN_S) * r;
-  return Math.round(seconds * 1000);
-}
-
 /* ---------------- feedback sequence construction ----------------
    Condition 1 - Baseline:          10 blocks of 10, each 5 correct/5 incorrect
    Condition 2 - Early streak/hot:  20 blocks of 5, each 4 correct/1 incorrect
@@ -209,7 +199,7 @@ window.buildFaceTrials = function (jsPsych, imageList) {
       data: { phase: "fixation", trial_number: trialNumber }
     });
 
-    // every 20 trials: two slider questions
+    // every 10 trials: two slider questions
     if (trialNumber % FACE_TRIALS_PER_BLOCK === 0) {
       SLIDER_QUESTIONS.forEach(function (question, qIdx) {
         trials.push({
