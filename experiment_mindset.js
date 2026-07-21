@@ -233,12 +233,6 @@ addModule(
   "window.face_trials"
 );
 
-/* Mindset questionnaire */
-addModule(
-  window.questionnaire_mindset,
-  "window.questionnaire_mindset"
-);
-
 /* End instructions */
 addModule(
   window.end_instructions,
