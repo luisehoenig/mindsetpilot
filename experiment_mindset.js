@@ -1,22 +1,32 @@
-/* Load and create JSPsych */
-const jsPsych = initJsPsych();
+/* Load and create jsPsych */
+const jsPsych = initJsPsych({
+  on_finish: function() {
+    console.log("Experiment finished.");
+    console.log(jsPsych.data.get().values());
+  }
+});
 
 const timeline = [];
 
-/* Random assignment to condition */
+
+/* =======================================================
+   Random assignment to mindset condition
+======================================================= */
+
 const condition = jsPsych.randomization.sampleWithoutReplacement(
   ["condition1", "condition2"],
   1
 )[0];
 
-/* Save condition in all data */
 jsPsych.data.addProperties({
   condition: condition
 });
 
-/* Face images for the face perception task.
-   NOTE: this currently lists 12 placeholder/test images - add filenames
-   until you have at least 140 (one image is shown per trial, no repeats). */
+
+/* =======================================================
+   Face images
+======================================================= */
+
 const faces = [
   "img/face (1).jpg",
   "img/face (2).jpg",
@@ -127,67 +137,117 @@ const faces = [
   "img/face (107).jpg",
   "img/face (108).jpg",
   "img/face (109).jpg",
-  "img/face (110).jpg",
-  "img/face (111).jpg",
-  "img/face (112).jpg",
-  "img/face (113).jpg",
-  "img/face (114).jpg",
-  "img/face (115).jpg",
-  "img/face (116).jpg",
-  "img/face (117).jpg",
-  "img/face (118).jpg",
-  "img/face (119).jpg",
-  "img/face (120).jpg",
-  "img/face (121).jpg",
-  "img/face (122).jpg",
-  "img/face (123).jpg",
-  "img/face (124).jpg",
-  "img/face (125).jpg",
-  "img/face (126).jpg",
-  "img/face (127).jpg",
-  "img/face (128).jpg",
-  "img/face (129).jpg",
-  "img/face (130).jpg",
-  "img/face (131).jpg",
-  "img/face (132).jpg",
-  "img/face (133).jpg",
-  "img/face (134).jpg",
-  "img/face (135).jpg",
-  "img/face (136).jpg",
-  "img/face (137).jpg",
-  "img/face (138).jpg",
-  "img/face (139).jpg",
-  "img/face (140).jpg"
+  "img/face (110).jpg"
 ];
+
+
+/* =======================================================
+   Preload
+======================================================= */
 
 const preload = {
   type: jsPsychPreload,
-  images: faces
+  images: faces,
+  show_progress_bar: true,
+  message: "Loading the experiment..."
 };
 
-/* Build the 140-trial face task (see face_trials.js).
-   This randomly assigns ONE of 4 feedback conditions (baseline / early
-   streak / late streak / late collapse) with equal 25% probability each,
-   independently of the mindset condition above - so across the 2 (mindset)
-   x 4 (feedback) design, every cell has an equal chance of being filled.
-   True exact counterbalancing across participants (not just equal
-   probability per participant) would need a server-side running counter -
-   let me know if you're deploying via Qualtrics/a backend and want that. */
-window.face_trials = window.buildFaceTrials(jsPsych, faces);
 
-/* create experiment timeline */
+/* =======================================================
+   Build face trials
+======================================================= */
 
-timeline.push(preload);
-timeline.push(...window.start_instructions);
-
-if (condition === "condition1") {
-  timeline.push(window.instruction_condition1);
-} else {
-  timeline.push(window.instruction_condition2);
+if (typeof window.buildFaceTrials !== "function") {
+  throw new Error(
+    "buildFaceTrials was not found. Check whether face_trials.js loaded correctly."
+  );
 }
 
-timeline.push(...window.face_trials);
-timeline.push(...window.questionnaire_mindset);
-timeline.push(...window.end_instructions);
+window.face_trials = window.buildFaceTrials(jsPsych, faces);
+
+
+/* =======================================================
+   Helper for adding modules
+======================================================= */
+
+/*
+ * Adds either:
+ * 1. an array of trials, or
+ * 2. a single trial/timeline object.
+ *
+ * This avoids using the spread operator on undefined
+ * or on a single jsPsych timeline object.
+ */
+function addModule(module, moduleName) {
+  if (typeof module === "undefined" || module === null) {
+    throw new Error(
+      moduleName +
+      " is undefined. Check the corresponding JavaScript file and variable name."
+    );
+  }
+
+  if (Array.isArray(module)) {
+    timeline.push(...module);
+    return;
+  }
+
+  if (typeof module === "object") {
+    timeline.push(module);
+    return;
+  }
+
+  throw new Error(
+    moduleName + " must be an array or a jsPsych trial object."
+  );
+}
+
+
+/* =======================================================
+   Create experiment timeline
+======================================================= */
+
+timeline.push(preload);
+
+/* Welcome and consent */
+addModule(
+  window.start_instructions,
+  "window.start_instructions"
+);
+
+/* Condition-specific instructions */
+if (condition === "condition1") {
+  addModule(
+    window.instruction_condition1,
+    "window.instruction_condition1"
+  );
+} else {
+  addModule(
+    window.instruction_condition2,
+    "window.instruction_condition2"
+  );
+}
+
+/* Face perception task */
+addModule(
+  window.face_trials,
+  "window.face_trials"
+);
+
+/* Mindset questionnaire */
+addModule(
+  window.questionnaire_mindset,
+  "window.questionnaire_mindset"
+);
+
+/* End instructions */
+addModule(
+  window.end_instructions,
+  "window.end_instructions"
+);
+
+
+/* =======================================================
+   Run experiment
+======================================================= */
 
 jsPsych.run(timeline);
