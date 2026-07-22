@@ -97,6 +97,9 @@ function createComprehensionQuestion(conditionName) {
       "Minor inconsistencies between people's behavior and spoken words while lying",
       "Clinical symptoms of blunted affect in children"
     ],
+     
+    button_layout: "grid",
+    grid_columns: 1,
 
     data: {
       task: "microexpression_comprehension",
