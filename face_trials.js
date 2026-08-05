@@ -53,7 +53,7 @@ const IMAGE_DISPLAY_HEIGHT_PX = 300; // slightly larger than before (was 260px),
 const EMOTION_OPTIONS = ["Sadness", "Happiness", "Anger", "Fear", "Surprise", "Disgust"];
 
 const ITEM_QUESTIONS = [
-  "Please think about your performance so far. How high do you think your success rate has been so far?",
+  "Based on your first intuition, how high do you think your success rate could have been so far?",
   "Now think about the next 10 faces of the task. How high do you think your success rate will be for the next 10 faces?"
 ];
 
