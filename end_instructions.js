@@ -67,6 +67,6 @@ window.end_instructions.push(debriefing);
 /* End page */
 const end = {
   type: jsPsychHtmlKeyboardResponse,
-  stimulus: "Thank you for your time. This experiment is now ended and you can close this tab."
+  stimulus: "Thank you for your time. This experiment is now ended, please click any key to save your participation."
 };
 window.end_instructions.push(end);
