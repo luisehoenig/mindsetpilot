@@ -44,7 +44,7 @@ window.end_instructions.push(suspicionProbe);
 const debriefing = {
   type: jsPsychHtmlKeyboardResponse,
   stimulus: `
-    <p>Thank you for participating in this study.</p>
+    <p>Thank you for participating in this study. Please continue through the next slides. At the end, you will be automatically redirected to Prolific to complete the study.</p>
 
     <p>The purpose of this experiment was not to measure your actual ability to recognize microexpressions. 
     In fact, all of the faces shown during the task were emotionally neutral photographs and did not contain any microexpressions. 
