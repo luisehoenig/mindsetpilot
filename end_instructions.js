@@ -59,6 +59,7 @@ const debriefing = {
 </p>
 
     <p>If you have any questions about this study or would like additional information about its purpose or would like to withdraw your participation, please contact the corresponding researcher (luise.hoenig@univie.ac.at).</p>
+    <p>**Press any key to continue**.</p>
   `
 };
 
