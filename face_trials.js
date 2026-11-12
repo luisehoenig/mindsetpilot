@@ -141,7 +141,6 @@ function pickWrongEmotion(selectedEmotion) {
    Condition 1 - Baseline:          10 blocks of 10, each 5 correct/5 incorrect
    Condition 2 - Early streak/hot:  10 blocks of 10, each 80% correct (8/10)
    Condition 3 - Late streak/hot:   5 blocks (5/5) then 5 blocks (80% correct)
-   Condition 4 - Late collapse/bad: 5 blocks (5/5) then 5 blocks (80% incorrect)
 
    All conditions then get ONE additional bonus block of 10 trials, 100%
    correct, appended at the very end (trials 101-110) - see buildFaceTrials.
@@ -156,9 +155,6 @@ function buildFeedbackSequence(condition) {
   } else if (condition === 3) {
     for (let b = 0; b < 5; b++) blocks.push(makeFeedbackBlock(5, 5));
     for (let b = 0; b < 5; b++) blocks.push(makeHalfSplitBlock("correct"));
-  } else if (condition === 4) {
-    for (let b = 0; b < 5; b++) blocks.push(makeFeedbackBlock(5, 5));
-    for (let b = 0; b < 5; b++) blocks.push(makeHalfSplitBlock("incorrect"));
   } else {
     throw new Error("Unknown feedback condition: " + condition);
   }
@@ -189,10 +185,9 @@ window.buildFaceTrials = function (jsPsych, imageList) {
   const feedbackConditionLabels = {
     1: "baseline",
     2: "early_streak",
-    3: "late_streak",
-    4: "late_collapse"
+    3: "late_streak"
   };
-  const feedbackCondition = 1 + Math.floor(Math.random() * 4);
+  const feedbackCondition = 1 + Math.floor(Math.random() * 3);
 
   jsPsych.data.addProperties({
     feedback_condition: feedbackCondition,
